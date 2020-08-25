@@ -1,12 +1,19 @@
-//console.log("Hello World");
-
 var faker = require("faker");
+var mysql = require("mysql");
 //console.log(faker.internet.email());
 
-function generateAddress() {
-  console.log(faker.address.streetAddress());
-  console.log(faker.address.city());
-  console.log(faker.address.state());
-}
+var connection = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  database: "join_us",
+  password: "root",
+});
 
-generateAddress();
+var q = "SELECT COUNT(*) as count FROM users";
+
+connection.query(q, function (error, results, fields) {
+  if (error) throw error;
+  console.log(results[0].count);
+});
+
+connection.end();
