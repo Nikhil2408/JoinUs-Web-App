@@ -10,28 +10,23 @@ var connection = mysql.createConnection({
   password: "root",
 });
 
-// Generating data from faker library
-var user = {
-  email: faker.internet.email(),
-  created_at: faker.date.past(),
-};
+// Generating and pushing data from faker library
+var data = [];
+for (var i = 0; i < 520; i++) {
+  data.push([faker.internet.email(), faker.date.past()]);
+}
 
-// To print data that the faker has generated
-//console.log(user);
+// Creating query to insert bulk data
+var q = "INSERT INTO users (email, created_at) VALUES ?";
 
 /*var end_result = */
-
-connection.query("insert into users set ?", user, function (
-  error,
-  results,
-  fields
-) {
-  if (error) throw error;
-  console.log(results);
+connection.query(q, [data], function (err, result) {
+  console.log(err);
+  console.log(result);
 });
 
 // To print the data after it is being inserted into database
-//console.log(end_result);
+// //console.log(end_result);
 
 // Closing the connection
 connection.end();
