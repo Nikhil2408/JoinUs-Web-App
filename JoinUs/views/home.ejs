@@ -1,0 +1,24 @@
+<link
+  href="https://fonts.googleapis.com/css?family=Roboto:100,300,400"
+  rel="stylesheet"
+/>
+<link rel="stylesheet" href="/style.css" />
+
+<div class="flex-container">
+  <div class="container">
+    <h1>JOIN US</h1>
+    <p>
+      Enter your Email to join <strong><%=count%></strong> others on the waiting
+      list. Feel free to join us.
+    </p>
+    <form method="post" action="/registerPage">
+      <input
+        class="form"
+        type="text"
+        name="email"
+        placeholder="Enter your Email Address"
+      />
+      <button>Click To Join</button>
+    </form>
+  </div>
+</div>

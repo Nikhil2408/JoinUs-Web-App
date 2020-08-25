@@ -1,6 +1,11 @@
 var express = require("express");
 var mysql = require("mysql");
+var bodyParser = require("body-parser");
 var app = express();
+
+app.set("view engine", "ejs");
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static(__dirname + "/public"));
 
 // Establishing connection to MySQL database
 var connection = mysql.createConnection({
@@ -16,13 +21,22 @@ app.get("/", function (req, res) {
   var q = "select count(*) as count from users";
   connection.query(q, function (error, results) {
     if (error) throw error;
+    var count = results[0].count;
     //console.log(results[0].count);
-    res.send("We have " + results[0].count + " users");
+    //res.send("We have " + results[0].count + " users");
+    res.render("home", { count: count });
   });
 });
 
-app.get("/learn", function (req, res) {
-  res.send("Learnt basics of Node.js");
+app.post("/registerPage", function (req, res) {
+  var user = {
+    email: req.body.email,
+  };
+  connection.query("insert into users set ?", user, function (error, results) {
+    if (error) throw error;
+    //res.send("Thanks for joining. Have a Good Day!!");
+    res.redirect("/");
+  });
 });
 
 // To make the server listen on port 8080
